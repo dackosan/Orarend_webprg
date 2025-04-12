@@ -1,134 +1,67 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <title>Órarend</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 1em;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 1em;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      min-width: 120px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f0f0f0;
-    }
-
-    td input {
-      width: 100%;
-      border: none;
-      background: transparent;
-      text-align: center;
-    }
-
-    td input:focus {
-      outline: none;
-      background-color: #e8f4ff;
-    }
-
-    caption {
-      caption-side: top;
-      font-size: 1.4em;
-      margin-bottom: 0.5em;
-      font-weight: bold;
-    }
-
-    th:first-child{
-        width: 50px;;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Órarend</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>ÓRAREND</h1>
+    <table id="timetable">
+        <thead>
+            <tr>
+                <th>Óra</th>
+                <th>Hétfő</th>
+                <th>Kedd</th>
+                <th>Szerda</th>
+                <th>Csütörtök</th>
+                <th>Péntek</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
-  <table id="timetable">
-    <caption>Órarend</caption>
-    <thead>
-      <tr>
-        <th>Óra</th>
-        <th>Hétfő</th>
-        <th>Kedd</th>
-        <th>Szerda</th>
-        <th>Csütörtök</th>
-        <th>Péntek</th>
-      </tr>
-    </thead>
-    <tbody>
+    <button class="buttonAdd" onclick="openAddModal()">Hozzáadása</button>
+    <button class="buttonDelete" onclick="openDeleteModal()">Törlése</button>
 
-    </tbody>
-  </table>
-
-  <script>
-    const API = 'http://localhost:3000/timetable';
-    const days = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek'];
-    const maxHours = 8;
-
-    async function fetchData() {
-      const res = await fetch(API);
-      const data = await res.json();
-
-      const table = document.querySelector('#timetable tbody');
-      table.innerHTML = '';
-
-      for (let hour = 0; hour <= maxHours; hour++) {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${hour}.</td>`;
-
-        for (const day of days) {
-          const match = data.find(e => e.day === day && e.hour === hour);
-          row.innerHTML += `<td>
-            <input value="${match ? match.subject : ''}" 
-                   data-id="${match ? match.id : ''}" 
-                   data-day="${day}" 
-                   data-hour="${hour}"
-            />
-          </td>`;
-        }
-
-        table.appendChild(row);
-      }
-    }
-
-    document.addEventListener('input', async e => {
-      if (e.target.tagName === 'INPUT') {
-        const subject = e.target.value;
-        const id = e.target.dataset.id;
-        const day = e.target.dataset.day;
-        const hour = +e.target.dataset.hour;
-
-        if (id) {
-          // módosítás
-          await fetch(`${API}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ day, hour, subject })
-          });
-        } else if (subject.trim() !== '') {
-          // új bejegyzés
-          const res = await fetch(API, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ day, hour, subject })
-          });
-          const newEntry = await res.json();
-          e.target.dataset.id = newEntry.id;
-        }
-      }
-    });
-
-    fetchData();
-  </script>
-
+    <!-- Hozzáadás -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+        <span class="close" onclick="closeAddModal()">&times;</span>
+        <h2>Óra hozzáadása</h2>
+        <label>Nap:</label>
+        <select id="add-day">
+            <option>Hétfő</option><option>Kedd</option><option>Szerda</option>
+            <option>Csütörtök</option><option>Péntek</option>
+        </select>
+        <label>Óraszám:</label>
+        <select id="add-hour">
+            ${[...Array(9).keys()].map(i => `<option value="${i}">${i}. óra</option>`).join('')}
+        </select>
+        <label>Tantárgy:</label>
+        <input type="text" id="add-subject" placeholder="Pl. Matek">
+        <button onclick="addLesson()">Hozzáadás</button>
+        </div>
+    </div>
+  
+  <!-- Törlés -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDeleteModal()">&times;</span>
+      <h2>Óra törlése</h2>
+      <label>Nap:</label>
+      <select id="delete-day">
+        <option>Hétfő</option><option>Kedd</option><option>Szerda</option>
+        <option>Csütörtök</option><option>Péntek</option>
+      </select>
+      <label>Óraszám:</label>
+      <select id="delete-hour">
+        ${[...Array(9).keys()].map(i => `<option value="${i}">${i}. óra</option>`).join('')}
+      </select>
+      <button onclick="deleteLesson()">Törlés</button>
+    </div>
+  </div>
+  
 </body>
 </html>

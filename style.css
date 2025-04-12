@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1em;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    min-width: 120px;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+td input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+}
+
+td input:focus {
+    outline: none;
+    background-color: #e8f4ff;
+}
+
+caption {
+    caption-side: top;
+    font-size: 1.4em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+th:first-child{
+    width: 50px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 80px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.close {
+    float: right;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.buttonAdd{
+    background-color: green;
+    color: white;
+    width: 100px;
+    height: 50px;
+    margin: 5px;
+    margin-top: 15px;
+    padding: 2px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.buttonDelete{
+    background-color: red;
+    color: white;
+    width: 100px;
+    height: 50px;
+    margin: 5px;
+    margin-top: 15px;
+    padding: 2px;
+    font-size: 15px;
+    font-weight: bold;
+}
