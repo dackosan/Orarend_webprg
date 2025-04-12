@@ -25,43 +25,49 @@
     <button class="buttonAdd" onclick="openAddModal()">Hozzáadása</button>
     <button class="buttonDelete" onclick="openDeleteModal()">Törlése</button>
 
-    <!-- Hozzáadás -->
     <div id="addModal" class="modal">
         <div class="modal-content">
-        <span class="close" onclick="closeAddModal()">&times;</span>
-        <h2>Óra hozzáadása</h2>
-        <label>Nap:</label>
-        <select id="add-day">
-            <option>Hétfő</option><option>Kedd</option><option>Szerda</option>
-            <option>Csütörtök</option><option>Péntek</option>
-        </select>
-        <label>Óraszám:</label>
-        <select id="add-hour">
-            ${[...Array(9).keys()].map(i => `<option value="${i}">${i}. óra</option>`).join('')}
-        </select>
-        <label>Tantárgy:</label>
-        <input type="text" id="add-subject" placeholder="Pl. Matek">
-        <button onclick="addLesson()">Hozzáadás</button>
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h2>Óra hozzáadása</h2>
+
+            <label>Nap:</label>
+            <select id="add-day">
+                <option>Hétfő</option>
+                <option>Kedd</option>
+                <option>Szerda</option>
+                <option>Csütörtök</option>
+                <option>Péntek</option>
+            </select> <br><br>
+
+            <label>Óraszám:</label>
+            <input type="number" id="add-hour" min="0" max="12" placeholder="Óraszám (pl. 3)"> <br><br>
+
+            <label>Tantárgy:</label>
+            <input type="text" id="add-subject" placeholder="Pl. Matek"> <br><br>
+
+            <button onclick="addLesson()">Hozzáadás</button>
         </div>
     </div>
   
-  <!-- Törlés -->
-  <div id="deleteModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeDeleteModal()">&times;</span>
-      <h2>Óra törlése</h2>
-      <label>Nap:</label>
-      <select id="delete-day">
-        <option>Hétfő</option><option>Kedd</option><option>Szerda</option>
-        <option>Csütörtök</option><option>Péntek</option>
-      </select>
-      <label>Óraszám:</label>
-      <select id="delete-hour">
-        ${[...Array(9).keys()].map(i => `<option value="${i}">${i}. óra</option>`).join('')}
-      </select>
-      <button onclick="deleteLesson()">Törlés</button>
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h2>Óra törlése</h2>
+
+            <label>Nap:</label>
+            <select id="delete-day">
+                <option>Hétfő</option>
+                <option>Kedd</option>
+                <option>Szerda</option>
+                <option>Csütörtök</option>
+                <option>Péntek</option>
+            </select> <br><br>
+
+            <label>Óraszám:</label>
+            <input type="number" id="delete-hour" min="0" max="12" placeholder="Óraszám (pl. 4)"> <br><br>
+
+            <button onclick="deleteLesson()">Törlés</button>
+        </div>
     </div>
-  </div>
-  
 </body>
 </html>
